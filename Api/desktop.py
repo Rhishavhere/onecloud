@@ -6,14 +6,27 @@ import platform
 from flask import Flask, jsonify, send_file, request
 from flask_cors import CORS
 import pyautogui
+import google.generativeai as genai
+import pyautogui
+from dotenv import load_dotenv
+
+
+load_dotenv()
 
 # Initialize the Flask app
 app = Flask(__name__)
-
-# --- CONFIGURATION ---
-# This allows your web frontend (e.g., myspace.rhishav.com) to make requests to this API.
-# For production, you might want to restrict it to your specific domain.
 CORS(app) 
+
+# --- GEMINI AI CONFIGURATION ---
+try:
+    gemini_api_key = os.getenv("GEMINI_API_KEY")
+    if not gemini_api_key:
+        raise ValueError("GEMINI_API_KEY not found in .env file")
+    genai.configure(api_key=gemini_api_key)
+    model = genai.GenerativeModel('gemini-2.0-flash') # Using the fast and efficient model
+except Exception as e:
+    print(f"Error configuring Gemini: {e}")
+    model = None
 
 # --- HELPERS ---
 def get_uptime():
@@ -139,45 +152,49 @@ def reboot_computer():
     os.system("shutdown /r /t 1")
     return jsonify({'status': 'success', 'message': 'Reboot command issued.'})
 
-## 6. AI Chat Endpoint (Gemini Integration Placeholder)
+## AI Chat
 @app.route('/desktop/chat', methods=['POST'])
 def chat_with_system():
-    """Analyzes a user query against system data using an AI model."""
     user_query = request.json.get('query')
     if not user_query:
         return jsonify({'error': 'Query not provided'}), 400
+    
+    if not model:
+        return jsonify({'ai_response': 'Error: Gemini AI model is not configured on the server.'}), 500
 
-    # --- This is where you would call the Gemini API ---
-    # 1. Gather relevant context from the system
-    running_processes = [p['name'] for p in get_processes().get_json()]
-    system_context = f"""
-    Current running processes on the Windows desktop: {', '.join(running_processes)}.
-    Current CPU Usage: {psutil.cpu_percent()}%
-    Current Memory Usage: {psutil.virtual_memory().percent}%
+    # 1. Gather system context
+    running_processes_list = [p.info['name'] for p in psutil.process_iter(['name'])]
+    cpu_usage = psutil.cpu_percent()
+    mem_usage = psutil.virtual_memory().percent
+
+    # 2. Formulate a detailed prompt for Gemini
+    prompt = f"""
+    You are RhishDesk, an AI assistant providing information about a user's computer.
+    Analyze the user's question based *only* on the real-time system data provided below.
+    Be concise and answer directly. If the data doesn't support an answer, say so.
+
+    **System Data:**
+    - CPU Usage: {cpu_usage:.1f}%
+    - Memory (RAM) Usage: {mem_usage:.1f}%
+    - Running Processes: {', '.join(sorted(list(set(running_processes_list))))}
+
+    **User's Question:** "{user_query}"
+
+    **Your Answer:**
     """
 
-    # 2. Formulate a prompt for the Gemini API
-    # prompt_for_gemini = f"Based on this system information: {system_context}. Answer the user's question: '{user_query}'"
-    
-    # 3. Call Gemini API (This part is a placeholder)
-    # gemini_response = call_gemini_api(prompt_for_gemini) 
-    
-    # For now, we'll just return a mock response demonstrating the concept.
-    # Example logic for your specific query: "is any game running on my laptop"
-    game_keywords = ['steam.exe', 'epicgameslauncher.exe', 'valorant.exe', 'csgo.exe', 'overwatch.exe']
-    found_games = [p for p in running_processes if p.lower() in game_keywords]
-    
-    if found_games:
-        ai_response = f"Yes, it looks like you are running the following game(s): {', '.join(found_games)}."
-    else:
-        ai_response = "No, I don't see any common games running right now."
+    # 3. Call the Gemini API and return the response
+    try:
+        response = model.generate_content(prompt)
+        ai_response = response.text
+    except Exception as e:
+        print(f"Gemini API error: {e}")
+        ai_response = "Sorry, I encountered an error while contacting the AI model."
 
     return jsonify({
         'user_query': user_query,
-        'ai_response': ai_response,
-        'context_used': system_context # For debugging
+        'ai_response': ai_response
     })
-
 
 # --- Main Execution ---
 if __name__ == '__main__':

@@ -1,29 +1,28 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, FlatList } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { BlurView } from 'expo-blur';
-import { COLORS, globalStyles } from '../constants/styles';
+import { globalStyles } from '../constants/styles';
+import DeviceCard from '../components/DeviceCard';
 
-const HomeScreen = ({ navigation }) => {
+// For now, we hardcode the devices. This could come from a config or API later.
+const DEVICES = [
+    { name: 'My Desktop', endpoint: '/desktop' },
+    // { name: 'My Laptop', endpoint: '/laptop' }, // When you add the laptop API
+];
+
+const HomeScreen = () => {
   return (
     <LinearGradient
-      colors={[COLORS.primary, COLORS.secondary]}
+      colors={['#0D0120', '#1A0833']}
       style={globalStyles.container}
     >
-      <View style={{ paddingTop: 60 }}>
-        <Text style={globalStyles.title}>RhishDesk</Text>
-        <Text style={[globalStyles.title, { fontSize: 18, fontWeight: '400', color: COLORS.textSecondary }]}>
-          Your Personal Cloud
-        </Text>
-
-        <TouchableOpacity onPress={() => navigation.navigate('DeviceDetail')}>
-          <View style={[globalStyles.card, { marginTop: 40 }]}>
-            <BlurView intensity={40} tint="dark" style={globalStyles.cardContent}>
-              <Text style={globalStyles.subtitle}>My Desktop</Text>
-              <Text style={{ color: COLORS.accentGreen }}>● Connected</Text>
-            </BlurView>
-          </View>
-        </TouchableOpacity>
+      <View style={{ paddingTop: 80 }}>
+        <Text style={globalStyles.title}>Devices</Text>
+        <FlatList
+            data={DEVICES}
+            keyExtractor={(item) => item.name}
+            renderItem={({item}) => <DeviceCard device={item} />}
+        />
       </View>
     </LinearGradient>
   );
