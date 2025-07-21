@@ -3,12 +3,8 @@ import { View, Text, FlatList } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { globalStyles } from '../constants/styles';
 import DeviceCard from '../components/DeviceCard';
+import { DEVICES } from '../constants/devices';
 
-// For now, we hardcode the devices. This could come from a config or API later.
-const DEVICES = [
-    { name: 'My Desktop', endpoint: '/desktop' },
-    // { name: 'My Laptop', endpoint: '/laptop' }, // When you add the laptop API
-];
 
 const HomeScreen = () => {
   return (

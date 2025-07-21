@@ -37,6 +37,7 @@ def get_uptime():
     delta = now - boot_time
     return str(delta).split('.')[0] # Return as hh:mm:ss
 
+
 # --- API ENDPOINTS ---
 
 ## 1. General Status Endpoint
@@ -164,14 +165,14 @@ def chat_with_system():
 
     # 1. Gather system context
     running_processes_list = [p.info['name'] for p in psutil.process_iter(['name'])]
-    cpu_usage = psutil.cpu_percent()
+    cpu_usage = psutil.cpu_percent(interval=1)
     mem_usage = psutil.virtual_memory().percent
 
     # 2. Formulate a detailed prompt for Gemini
     prompt = f"""
-    You are RhishDesk, an AI assistant providing information about a user's computer.
+    You are RhishDesk, an AI assistant providing information about a user's desktop (windows) computer.
     Analyze the user's question based *only* on the real-time system data provided below.
-    Be concise and answer directly. If the data doesn't support an answer, say so.
+    Be chill and fun to talk to.
 
     **System Data:**
     - CPU Usage: {cpu_usage:.1f}%

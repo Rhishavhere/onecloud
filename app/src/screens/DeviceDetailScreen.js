@@ -24,9 +24,9 @@ const DeviceDetailScreen = ({ route }) => {
     try {
       // Prepend the specific device endpoint to each API call
       const [statusRes, sysInfoRes, processesRes] = await Promise.all([
-        apiClient.get(`${device.endpoint}/status`),
-        apiClient.get(`${device.endpoint}/system-info`),
-        apiClient.get(`${device.endpoint}/processes`),
+        apiClient.get(`${device.baseUrl}${device.endpoint}/status`),
+        apiClient.get(`${device.baseUrl}${device.endpoint}/system-info`),
+        apiClient.get(`${device.baseUrl}${device.endpoint}/processes`),
       ]);
       setStatus(statusRes.data);
       setSysInfo(sysInfoRes.data);
@@ -61,7 +61,7 @@ const DeviceDetailScreen = ({ route }) => {
           text: "Confirm",
           onPress: async () => {
             try {
-              await apiClient.post(`${device.endpoint}/control/${action}`);
+              await apiClient.post(`${device.baseUrl}${device.endpoint}/control/${action}`);
               Alert.alert("Success", `${actionName} command sent.`);
             } catch (error) {
               Alert.alert("Error", `Failed to send ${action} command.`);
@@ -185,7 +185,7 @@ const DeviceDetailScreen = ({ route }) => {
       >
         <View style={styles.modalContainer}>
           <Image
-            source={{ uri: `${apiClient.defaults.baseURL}${device.endpoint}/screenshot?t=${screenshotTimestamp}` }}
+            source={{ uri: `${device.baseURL}${device.endpoint}/screenshot?t=${screenshotTimestamp}` }}
             style={styles.screenshotImage}
             resizeMode="contain"
           />

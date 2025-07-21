@@ -3,9 +3,11 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, ActivityIndicator,
 import { LinearGradient } from 'expo-linear-gradient';
 import { BlurView } from 'expo-blur';
 import { COLORS, globalStyles } from '../constants/styles';
+import { DEVICES } from '../constants/devices';
 import apiClient from '../api/axiosConfig';
 
 const AiScreen = () => {
+    const [selectedDevice, setSelectedDevice] = useState(DEVICES[0]);
     const [chatQuery, setChatQuery] = useState('');
     const [chatResponse, setChatResponse] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -13,10 +15,10 @@ const AiScreen = () => {
     const handleChat = async () => {
         if (!chatQuery.trim()) return;
         setIsLoading(true);
-        setChatResponse(''); // Clear previous response
+        setChatResponse('');
         try {
-            // The endpoint path is now more specific for clarity
-            const res = await apiClient.post('/desktop/chat', { query: chatQuery });
+            const chatUrl = `${selectedDevice.baseUrl}${selectedDevice.endpoint}/chat`;
+            const res = await apiClient.post(chatUrl, { query: chatQuery });
             setChatResponse(res.data.ai_response);
         } catch (error) {
             console.error("AI Chat Error:", error);
@@ -35,6 +37,24 @@ const AiScreen = () => {
                         <Text style={styles.subtitle}>Talk directly to your devices.</Text>
                     </View>
 
+                    <View>
+                        <Text style={styles.selectorLabel}>Select a device to talk to:</Text>
+                        <View style={styles.deviceSelector}>
+                            {DEVICES.map(device => (
+                                <TouchableOpacity
+                                    key={device.name}
+                                    style={[
+                                        styles.deviceButton,
+                                        selectedDevice.name === device.name && styles.selectedButton
+                                    ]}
+                                    onPress={() => setSelectedDevice(device)}
+                                >
+                                    <Text style={styles.deviceButtonText}>{device.name}</Text>
+                                </TouchableOpacity>
+                            ))}
+                        </View>
+                    </View>
+
                     <View style={globalStyles.card}>
                         <BlurView intensity={40} tint="dark" style={globalStyles.cardContent}>
                             <Text style={[globalStyles.subtitle, {textAlign: 'center'}]}>Gemini Chat</Text>
@@ -49,7 +69,6 @@ const AiScreen = () => {
                                 <Text style={styles.buttonText}>{isLoading ? 'Thinking...' : 'Ask AI'}</Text>
                             </TouchableOpacity>
 
-                            {/* Response Area */}
                             {isLoading && <ActivityIndicator style={{ marginTop: 20 }} color={COLORS.accentPurple} size="small" />}
                             {chatResponse ? (
                                 <View style={styles.responseContainer}>
@@ -71,22 +90,66 @@ const styles = StyleSheet.create({
         color: COLORS.textSecondary,
         paddingHorizontal: 20,
         marginTop: -10,
-        marginBottom: 30,
+        marginBottom: 20,
     },
-    button: { backgroundColor: COLORS.accentPurple, paddingVertical: 14, borderRadius: 12, alignItems: 'center' },
-    buttonText: { color: COLORS.text, fontWeight: 'bold', fontSize: 16 },
-    textInput: { backgroundColor: COLORS.glass, color: COLORS.text, borderRadius: 10, padding: 12, marginBottom: 15, fontSize: 16 },
+    button: {
+        backgroundColor: COLORS.accentPurple,
+        paddingVertical: 14,
+        borderRadius: 12,
+        alignItems: 'center'
+    },
+    buttonText: {
+        color: COLORS.text,
+        fontWeight: 'bold',
+        fontSize: 16
+    },
+    textInput: {
+        backgroundColor: COLORS.glass,
+        color: COLORS.text,
+        borderRadius: 10,
+        padding: 12,
+        marginBottom: 15,
+        fontSize: 16
+    },
     responseContainer: {
         marginTop: 20,
         backgroundColor: COLORS.glass,
         borderRadius: 8,
         padding: 15,
     },
-    aiResponse: { 
-        color: COLORS.text, 
-        fontStyle: 'italic', 
+    aiResponse: {
+        color: COLORS.text,
+        fontStyle: 'italic',
         textAlign: 'center',
         lineHeight: 22,
+    },
+    selectorLabel: {
+        color: COLORS.textSecondary,
+        textAlign: 'center',
+        marginBottom: 10,
+    },
+    deviceSelector: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        gap: 10,
+        marginBottom: 20,
+        marginHorizontal: 20,
+    },
+    deviceButton: {
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        backgroundColor: COLORS.glass,
+        borderRadius: 20,
+        borderWidth: 1,
+        borderColor: COLORS.glass,
+    },
+    selectedButton: {
+        backgroundColor: COLORS.accentPurple,
+        borderColor: COLORS.accentPurple,
+    },
+    deviceButtonText: {
+        color: COLORS.text,
+        fontWeight: '600',
     },
 });
 

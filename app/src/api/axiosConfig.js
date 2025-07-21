@@ -1,7 +1,5 @@
 import axios from 'axios';
 
-const apiClient = axios.create({
-  baseURL: `http://myspace.rhishav.com`,
-});
+const apiClient = axios.create();
 
 export default apiClient;

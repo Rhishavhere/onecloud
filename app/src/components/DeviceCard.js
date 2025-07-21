@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ActivityIndicator, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { BlurView } from 'expo-blur';
 import * as Progress from 'react-native-progress';
@@ -14,20 +14,35 @@ const DeviceCard = ({ device }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await apiClient.get(`${device.endpoint}/system-info`);
+                const res = await apiClient.get(`${device.baseUrl}${device.endpoint}/system-info`);
                 setInfo(res.data);
             } catch (error) {
-                console.log(`Could not fetch info for ${device.name}`);
-                setInfo(null); // Clear info on error
+                console.log(`Could not fetch info for ${device.name}. Marking as offline.`);
+                setInfo(null); // Set info to null to indicate offline status
             } finally {
                 setLoading(false);
             }
         };
 
-        fetchData(); // Fetch immediately
-        const interval = setInterval(fetchData, 15000); // And then every 15 seconds
-        return () => clearInterval(interval); // Cleanup on unmount
+        fetchData();
+        const interval = setInterval(fetchData, 15000);
+        return () => clearInterval(interval);
     }, [device]);
+
+    // NEW: Handle press action based on device status
+    const handlePress = () => {
+        if (info) {
+            // If we have info, the device is online, so navigate
+            navigation.navigate('DeviceDetail', { device });
+        } else {
+            // Otherwise, show an alert notification
+            Alert.alert(
+                "Device Offline",
+                `${device.name} is currently offline or unreachable.`,
+                [{ text: "OK" }]
+            );
+        }
+    };
 
     const ProgressBar = ({ label, progress, color }) => (
         <View style={styles.progressContainer}>
@@ -38,7 +53,7 @@ const DeviceCard = ({ device }) => {
     );
 
     return (
-        <TouchableOpacity onPress={() => navigation.navigate('DeviceDetail', { device })}>
+        <TouchableOpacity onPress={handlePress}>
             <View style={[globalStyles.card, { marginTop: 20 }]}>
                 <BlurView intensity={40} tint="dark" style={globalStyles.cardContent}>
                     <View style={styles.cardHeader}>
@@ -54,7 +69,7 @@ const DeviceCard = ({ device }) => {
                             <ProgressBar label="RAM" progress={info.memory.usage_percent / 100} color={COLORS.accentGreen} />
                         </View>
                     ) : (
-                        <Text style={{color: COLORS.textSecondary, textAlign: 'center', marginVertical: 20}}>Could not retrieve device stats.</Text>
+                        <Text style={{color: COLORS.textSecondary, textAlign: 'center', marginVertical: 20}}>Device is offline. Stats are unavailable.</Text>
                     )}
                 </BlurView>
             </View>
