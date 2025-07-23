@@ -600,8 +600,11 @@ def chat_with_system():
         
         User Question: "{user_query}"
         
-        Provide a helpful, accurate response based on the current system data. Be conversational but informative.
+        Provide a helpful, accurate response based on the current system data. Be chill and friendly instead of providing a lot of information and techincal facts.
+        Have a cool and friendly tone, sometimes adding humour and sarcasm.
+        Don't use text formating and keep responses fairly brief.
         If the user asks about performance issues, suggest specific solutions based on the data.
+
         """
 
         # Handle screenshot inclusion

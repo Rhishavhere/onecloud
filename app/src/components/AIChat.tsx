@@ -26,7 +26,7 @@ export function AIChat({ deviceEndpoint }: AIChatProps) {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
-      content: `Hello! I'm RhishDesk AI, your intelligent system administrator. I have real-time access to your ${deviceEndpoint} system data and can help you monitor, troubleshoot, and manage your device. What would you like to know?`,
+      content: `Hey Rhishav. I am up and watching over your ${deviceEndpoint}. mhm ?`,
       isUser: false,
       timestamp: new Date()
     }
