@@ -401,7 +401,7 @@ def get_temperature_detailed():
 def get_processes():
     """Returns a list of running processes with detailed information."""
     try:
-        limit = request.args.get('limit', 50, type=int)
+        limit = request.args.get('limit', 20, type=int)
         sort_by = request.args.get('sort', 'memory', type=str)  # memory, cpu, name, pid
         
         processes = []
@@ -416,6 +416,7 @@ def get_processes():
             except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
                 pass
         
+  
         # Sort processes
         if sort_by == 'memory':
             processes.sort(key=lambda p: p['memory_mb'], reverse=True)
@@ -608,22 +609,34 @@ def chat_with_system():
         """
 
         # Handle screenshot inclusion
-        content_parts = [prompt]
-        
+        contents = [prompt]
+
+        # The corrected block for your Flask app
+
         if include_screenshot:
             try:
+                # Let's add a print statement to confirm this block is running
+                print("Screenshot toggle is ON. Capturing screen...")
+
                 screenshot = pyautogui.screenshot()
                 img_buffer = io.BytesIO()
                 screenshot.save(img_buffer, format='PNG')
                 img_buffer.seek(0)
                 
-                # Note: You'd need to implement image handling for Gemini here
-                # This is a placeholder for the image processing
-                content_parts.append("[Screenshot captured and analyzed]")
+                # This is the corrected structure: a list with the prompt string and the image Part
+                contents = [
+                    prompt, 
+                    {
+                        'mime_type': 'image/png',
+                        'data': img_buffer.read()
+                    }
+                ]
             except Exception as e:
-                content_parts.append(f"[Screenshot capture failed: {str(e)}]")
+                # Add a print statement to see the exact error
+                print(f"!!! ERROR capturing or processing screenshot: {str(e)}")
+                contents.append(f"[Screenshot capture failed: {str(e)}]")
 
-        response = model.generate_content(content_parts)
+        response = model.generate_content(contents)
         ai_response = response.text
 
         return jsonify({
