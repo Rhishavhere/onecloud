@@ -1,0 +1,6 @@
+psutil
+Flask
+Flask-Cors
+PyAutoGUI
+google-generativeai
+python-dotenv
