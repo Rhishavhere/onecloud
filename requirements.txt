@@ -4,3 +4,5 @@ Flask-Cors
 PyAutoGUI
 google-generativeai
 python-dotenv
+opencv-python
+pywin32

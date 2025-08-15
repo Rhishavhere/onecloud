@@ -1,4 +1,4 @@
-# RhishDesk: Your Personal Cloud Management Dashboard
+# OneCloud: Personal Cloud API and Backend Server
 
 ## Overview
 
