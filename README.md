@@ -3,9 +3,10 @@
 ## Overview
 
 **OneCloud** is a personal cloud backend that gives you real-time insights and control over your devices.
-It acts as the central hub for your personal cloud, enabling system monitoring, AI-assisted queries, and remote operations — securely accessible from anywhere.
 
-The backend leverages Flask APIs and Cloudflare Tunnel for secure access, even behind NAT or firewalls.
+`It acts as the central hub for your personal cloud, enabling system monitoring, AI-assisted queries, and remote operations — securely accessible from anywhere.`
+
+`The backend leverages Flask APIs and Cloudflare Tunnel for secure access, even behind NAT or firewalls.`
 
 With **OneCloud**, you can:
 
@@ -120,8 +121,8 @@ Example:
 ## Endpoint Parameters
 
 ### `/system/processes` (GET)
-- `limit` *(int)* — number of processes to return (default: 20)  
-- `sort` *(string)* — sort by `memory`, `cpu`, `name`, or `pid` (default: `memory`)  
+- `limit` *(int)* — number of processes to return (default: 20)
+- `sort` *(string)* — sort by `memory`, `cpu`, `name`, or `pid` (default: `memory`)
 
 **Example:**
 ```bash
@@ -131,8 +132,8 @@ GET /desktop/system/processes?limit=10&sort=cpu
 ---
 
 ### `/system/screenshot` (GET)
-- `width` *(int)* — resize image width before returning  
-- `height` *(int)* — resize image height before returning  
+- `width` *(int)* — resize image width before returning
+- `height` *(int)* — resize image height before returning
 - `quality` *(int)* — image quality (default: 95)
 
 **Example:**
@@ -178,3 +179,51 @@ echo "CONTROL_TOKEN=your_token" >> .env
 python api_win.py   # for Windows
 # or
 python api_linux.py # for Linux (Fedora)
+
+---
+```
+
+### Expose API via Cloudflare Tunnel
+
+1. **Install Cloudflare Tunnel CLI** (`cloudflared`):
+   [Installation Guide → Cloudflare Docs](https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/install-and-setup/installation)
+
+2. **Authenticate with Cloudflare**:
+```bash
+cloudflared login
+```
+
+3. **Create a tunnel** (replace `<YOUR_TUNNEL_NAME>` with a name you choose):
+```bash
+cloudflared tunnel create <YOUR_TUNNEL_NAME>
+```
+
+4. **Configure the tunnel** by creating `~/.cloudflared/config.yml`:
+```yaml
+tunnel: <YOUR_TUNNEL_UUID>
+credentials-file: /home/user/.cloudflared/<YOUR_TUNNEL_UUID>.json
+
+# Change hostname to your Cloudflare domain/subdomain
+hostname: myspace.example.com
+service: http://localhost:5000
+```
+
+5. **Run the tunnel**:
+```bash
+cloudflared tunnel run <YOUR_TUNNEL_NAME>
+```
+
+---
+
+Once the tunnel is running, your API will be available at:
+- **Desktop**: `https://myspace.example.com/desktop/*`
+- **Laptop**: `https://myspace.example.com/laptop/*`
+
+---
+
+## Security Tips
+- Use **strong, unique tokens** in `.env`
+- Always access via HTTPS (Cloudflare provides this)
+- Keep dependencies updated
+
+---
