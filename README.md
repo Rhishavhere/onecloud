@@ -71,18 +71,18 @@ Example:
 
 | Endpoint | Method | Description |
 |----------|--------|-------------|
-| ![`/desktop/status`](https://img.shields.io/badge/endpoint-/desktop/status-green) | ![GET](https://img.shields.io/badge/GET-blue) | Quick overview: OS, hostname, uptime |
-| ![`/desktop/system/overview`](https://img.shields.io/badge/endpoint-/desktop/system/overview-blue) | ![GET](https://img.shields.io/badge/GET-blue) | Full CPU, memory, disk, network, battery, temp |
-| ![`/desktop/system/cpu`](https://img.shields.io/badge/endpoint-/desktop/system/cpu-orange) | ![GET](https://img.shields.io/badge/GET-blue) | Detailed CPU stats |
-| ![`/desktop/system/memory`](https://img.shields.io/badge/endpoint-/desktop/system/memory-yellow) | ![GET](https://img.shields.io/badge/GET-blue) | Memory + swap usage |
-| ![`/desktop/system/disk`](https://img.shields.io/badge/endpoint-/desktop/system/disk-lightgrey) | ![GET](https://img.shields.io/badge/GET-blue) | Disk partitions & I/O |
-| ![`/desktop/system/network`](https://img.shields.io/badge/endpoint-/desktop/system/network-purple) | ![GET](https://img.shields.io/badge/GET-blue) | Interfaces, I/O, connections |
-| ![`/desktop/system/processes`](https://img.shields.io/badge/endpoint-/desktop/system/processes-red) | ![GET](https://img.shields.io/badge/GET-blue) | Running processes info |
-| ![`/desktop/system/battery`](https://img.shields.io/badge/endpoint-/desktop/system/battery-brightgreen) | ![GET](https://img.shields.io/badge/GET-blue) | Battery status |
-| ![`/desktop/system/temperature`](https://img.shields.io/badge/endpoint-/desktop/system/temperature-lightblue) | ![GET](https://img.shields.io/badge/GET-blue) | Temperature readings |
-| ![`/desktop/system/users`](https://img.shields.io/badge/endpoint-/desktop/system/users-grey) | ![GET](https://img.shields.io/badge/GET-blue) | Logged-in users |
-| ![`/desktop/system/services`](https://img.shields.io/badge/endpoint-/desktop/system/services-pink) | ![GET](https://img.shields.io/badge/GET-blue) | Windows services |
-| ![`/desktop/system/metrics/history`](https://img.shields.io/badge/endpoint-/desktop/system/metrics/history-9cf) | ![GET](https://img.shields.io/badge/GET-blue) | Historical CPU/mem/network usage |
+| ![/desktop/status](https://img.shields.io/badge/-/desktop/status-green) | ![GET](https://img.shields.io/badge/GET-blue) | Quick overview: OS, hostname, uptime |
+| ![/desktop/system/overview](https://img.shields.io/badge/-/desktop/system/overview-blue) | ![GET](https://img.shields.io/badge/GET-blue) | Full CPU, memory, disk, network, battery, temp |
+| ![/desktop/system/cpu](https://img.shields.io/badge/-/desktop/system/cpu-orange) | ![GET](https://img.shields.io/badge/GET-blue) | Detailed CPU stats |
+| ![/desktop/system/memory](https://img.shields.io/badge/-/desktop/system/memory-yellow) | ![GET](https://img.shields.io/badge/GET-blue) | Memory + swap usage |
+| ![/desktop/system/disk](https://img.shields.io/badge/-/desktop/system/disk-lightgrey) | ![GET](https://img.shields.io/badge/GET-blue) | Disk partitions & I/O |
+| ![/desktop/system/network](https://img.shields.io/badge/-/desktop/system/network-purple) | ![GET](https://img.shields.io/badge/GET-blue) | Interfaces, I/O, connections |
+| ![/desktop/system/processes](https://img.shields.io/badge/-/desktop/system/processes-red) | ![GET](https://img.shields.io/badge/GET-blue) | Running processes info |
+| ![/desktop/system/battery](https://img.shields.io/badge/-/desktop/system/battery-brightgreen) | ![GET](https://img.shields.io/badge/GET-blue) | Battery status |
+| ![/desktop/system/temperature](https://img.shields.io/badge/-/desktop/system/temperature-lightblue) | ![GET](https://img.shields.io/badge/GET-blue) | Temperature readings |
+| ![/desktop/system/users](https://img.shields.io/badge/-/desktop/system/users-grey) | ![GET](https://img.shields.io/badge/GET-blue) | Logged-in users |
+| ![/desktop/system/services](https://img.shields.io/badge/-/desktop/system/services-pink) | ![GET](https://img.shields.io/badge/GET-blue) | Windows services |
+| ![/desktop/system/metrics/history](https://img.shields.io/badge/-/desktop/system/metrics/history-9cf) | ![GET](https://img.shields.io/badge/GET-blue) | Historical CPU/mem/network usage |
 
 ---
 
@@ -90,10 +90,10 @@ Example:
 
 | Endpoint | Method | Description |
 |----------|--------|-------------|
-| ![`/desktop/system/screenshot`](https://img.shields.io/badge/endpoint-/desktop/system/screenshot-blueviolet) | ![GET](https://img.shields.io/badge/GET-blue) | Capture current screen |
-| ![`/desktop/system/control/shutdown`](https://img.shields.io/badge/endpoint-/desktop/system/control/shutdown-red) | ![POST](https://img.shields.io/badge/POST-orange) | Schedule shutdown |
-| ![`/desktop/system/control/reboot`](https://img.shields.io/badge/endpoint-/desktop/system/control/reboot-orange) | ![POST](https://img.shields.io/badge/POST-orange) | Schedule reboot |
-| ![`/desktop/system/control/cancel-shutdown`](https://img.shields.io/badge/endpoint-/desktop/system/control/cancel--shutdown-green) | ![POST](https://img.shields.io/badge/POST-orange) | Cancel shutdown/reboot |
+| ![/desktop/system/screenshot](https://img.shields.io/badge/-/desktop/system/screenshot-blueviolet) | ![GET](https://img.shields.io/badge/GET-blue) | Capture current screen |
+| ![/desktop/system/control/shutdown](https://img.shields.io/badge/-/desktop/system/control/shutdown-red) | ![POST](https://img.shields.io/badge/POST-orange) | Schedule shutdown |
+| ![/desktop/system/control/reboot](https://img.shields.io/badge/-/desktop/system/control/reboot-orange) | ![POST](https://img.shields.io/badge/POST-orange) | Schedule reboot |
+| ![/desktop/system/control/cancel-shutdown](https://img.shields.io/badge/-/desktop/system/control/cancel--shutdown-green) | ![POST](https://img.shields.io/badge/POST-orange) | Cancel shutdown/reboot |
 
 ---
 
@@ -101,7 +101,7 @@ Example:
 
 | Endpoint | Method | Description |
 |----------|--------|-------------|
-| ![`/desktop/ai/chat`](https://img.shields.io/badge/endpoint-/desktop/ai/chat-lightgreen) | ![POST](https://img.shields.io/badge/POST-orange) | Chat with Google Gemini AI about your system |
+| ![/desktop/ai/chat](https://img.shields.io/badge/-/desktop/ai/chat-lightgreen) | ![POST](https://img.shields.io/badge/POST-orange) | Chat with Google Gemini AI about your system |
 
 ---
 
@@ -109,7 +109,7 @@ Example:
 
 | Endpoint | Method | Description |
 |----------|--------|-------------|
-| ![`/desktop/health`](https://img.shields.io/badge/endpoint-/desktop/health-success) | ![GET](https://img.shields.io/badge/GET-blue) | API health status |
+| ![/desktop/health](https://img.shields.io/badge/-/desktop/health-success) | ![GET](https://img.shields.io/badge/GET-blue) | API health status |
 
 ---
 
