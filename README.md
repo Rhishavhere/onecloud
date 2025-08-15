@@ -1,5 +1,7 @@
 # OneCloud: Personal Cloud Server and API
 
+![Python](https://img.shields.io/badge/Python-3.8+-blue)![Flask](https://img.shields.io/badge/Flask-API%20Backend-green)![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20Linux-orange)![License](https://img.shields.io/badge/License-MIT-lightgrey)![Status](https://img.shields.io/badge/Status-Active-brightgreen)
+
 ## Overview
 
 **OneCloud** is a personal cloud backend that gives you real-time insights and control over your devices.
