@@ -96,6 +96,8 @@ Example:
 | ![/system/control/shutdown](https://img.shields.io/badge/-/system/control/shutdown-red) | ![POST](https://img.shields.io/badge/POST-orange) | Schedule shutdown |
 | ![/system/control/reboot](https://img.shields.io/badge/-/system/control/reboot-orange) | ![POST](https://img.shields.io/badge/POST-orange) | Schedule reboot |
 | ![/system/control/cancel-shutdown](https://img.shields.io/badge/-/system/control/cancel--shutdown-green) | ![POST](https://img.shields.io/badge/POST-orange) | Cancel shutdown/reboot |
+| ![/laptop/camera/capture](https://img.shields.io/badge/-/camera/capture-ff69b4) | ![GET](https://img.shields.io/badge/GET-blue) | Capture image from webcam and return as PNG |
+
 
 ---
 
@@ -114,6 +116,45 @@ Example:
 | ![/health](https://img.shields.io/badge/-/health-success) | ![GET](https://img.shields.io/badge/GET-blue) | API health status |
 
 ---
+
+## Endpoint Parameters
+
+### `/system/processes` (GET)
+- `limit` *(int)* — number of processes to return (default: 20)  
+- `sort` *(string)* — sort by `memory`, `cpu`, `name`, or `pid` (default: `memory`)  
+
+**Example:**
+```bash
+GET /desktop/system/processes?limit=10&sort=cpu
+```
+
+---
+
+### `/system/screenshot` (GET)
+- `width` *(int)* — resize image width before returning  
+- `height` *(int)* — resize image height before returning  
+- `quality` *(int)* — image quality (default: 95)
+
+**Example:**
+```bash
+GET /desktop/system/screenshot?width=800&height=600&quality=80
+```
+
+---
+
+### `/ai/chat` (POST)
+- `query` *(string)* — natural language question or command
+- `include_screenshot` *(bool)* — if true, attaches a screenshot for AI context
+**Body:**
+```json
+{
+  "query": "Describe the system status",
+  "include_screenshot": true
+}
+```
+
+
+
 
 ## Setup
 
