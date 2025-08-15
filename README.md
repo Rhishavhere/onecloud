@@ -7,7 +7,8 @@
 
 `The backend leverages Flask APIs and Cloudflare Tunnel for secure access, even behind NAT or firewalls.`
 
-![Python](https://img.shields.io/badge/Python-3.8%2B-blue?logo=python&logoColor=white)   ![Flask](https://img.shields.io/badge/Flask-API%20Backend-black?logo=flask&logoColor=white) 
+![Python](https://img.shields.io/badge/Python-3.8%2B-blue?logo=python&logoColor=white)   ![Flask](https://img.shields.io/badge/Flask-API%20Backend-black?logo=flask&logoColor=white)
+
 ![OS](https://img.shields.io/badge/OS-Windows%20%7C%20Linux-orange?logo=windows&logoColor=white&logoWidth=20)   ![Cloudflare Tunnel](https://img.shields.io/badge/Secure%20Access-Cloudflare%20Tunnel-F38020?logo=cloudflare&logoColor=white)
 
 With **OneCloud**, you can:
