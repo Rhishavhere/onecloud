@@ -1,8 +1,8 @@
-# OneCloud: Personal Cloud API & Backend Server
+# OneCloud: Personal Cloud Server and API
 
 ## Overview
 
-**OneCloud** is a powerful personal cloud backend that gives you real-time insights and control over your devices.
+**OneCloud** is a personal cloud backend that gives you real-time insights and control over your devices.
 It acts as the central hub for your personal cloud, enabling system monitoring, AI-assisted queries, and remote operations — securely accessible from anywhere.
 
 The backend leverages Flask APIs and Cloudflare Tunnel for secure access, even behind NAT or firewalls.
@@ -18,7 +18,7 @@ With **OneCloud**, you can:
 
 ---
 
-## Frontend
+## Frontend ( _separate repo_ )
 
 The **OneCloud Backend** works together with the **OneCloud Frontend** to give you a full dashboard experience.
 The frontend is a separate project and can be found here:
@@ -58,10 +58,12 @@ OneCloud supports both **Windows** and **Linux (Fedora)** environments with sepa
 - **Windows** → `api_win.py` → exposes `/desktop/*` endpoints
 - **Linux (Fedora)** → `api_linux.py` → exposes `/laptop/*` endpoints
 
+_Update the exposed endpoints to match your device preferences._
+
 Simply run the script for your OS and tunnel it using Cloudflare Tunnel to your chosen public hostname.
 Example:
-- Windows: `https://myspace.example.com/desktop/system/overview`
-- Linux: `https://myspace.example.com/laptop/system/overview`
+- Desktop: `https://myspace.example.com/desktop/system/overview`
+- Laptop: `https://myspace.example.com/laptop/system/overview`
 
 ---
 
@@ -71,18 +73,18 @@ Example:
 
 | Endpoint | Method | Description |
 |----------|--------|-------------|
-| ![/desktop/status](https://img.shields.io/badge/-/desktop/status-green) | ![GET](https://img.shields.io/badge/GET-blue) | Quick overview: OS, hostname, uptime |
-| ![/desktop/system/overview](https://img.shields.io/badge/-/desktop/system/overview-blue) | ![GET](https://img.shields.io/badge/GET-blue) | Full CPU, memory, disk, network, battery, temp |
-| ![/desktop/system/cpu](https://img.shields.io/badge/-/desktop/system/cpu-orange) | ![GET](https://img.shields.io/badge/GET-blue) | Detailed CPU stats |
-| ![/desktop/system/memory](https://img.shields.io/badge/-/desktop/system/memory-yellow) | ![GET](https://img.shields.io/badge/GET-blue) | Memory + swap usage |
-| ![/desktop/system/disk](https://img.shields.io/badge/-/desktop/system/disk-lightgrey) | ![GET](https://img.shields.io/badge/GET-blue) | Disk partitions & I/O |
-| ![/desktop/system/network](https://img.shields.io/badge/-/desktop/system/network-purple) | ![GET](https://img.shields.io/badge/GET-blue) | Interfaces, I/O, connections |
-| ![/desktop/system/processes](https://img.shields.io/badge/-/desktop/system/processes-red) | ![GET](https://img.shields.io/badge/GET-blue) | Running processes info |
-| ![/desktop/system/battery](https://img.shields.io/badge/-/desktop/system/battery-brightgreen) | ![GET](https://img.shields.io/badge/GET-blue) | Battery status |
-| ![/desktop/system/temperature](https://img.shields.io/badge/-/desktop/system/temperature-lightblue) | ![GET](https://img.shields.io/badge/GET-blue) | Temperature readings |
-| ![/desktop/system/users](https://img.shields.io/badge/-/desktop/system/users-grey) | ![GET](https://img.shields.io/badge/GET-blue) | Logged-in users |
-| ![/desktop/system/services](https://img.shields.io/badge/-/desktop/system/services-pink) | ![GET](https://img.shields.io/badge/GET-blue) | Windows services |
-| ![/desktop/system/metrics/history](https://img.shields.io/badge/-/desktop/system/metrics/history-9cf) | ![GET](https://img.shields.io/badge/GET-blue) | Historical CPU/mem/network usage |
+| ![/status](https://img.shields.io/badge/-/status-green) | ![GET](https://img.shields.io/badge/GET-blue) | Quick overview: OS, hostname, uptime |
+| ![/system/overview](https://img.shields.io/badge/-/system/overview-blue) | ![GET](https://img.shields.io/badge/GET-blue) | Full CPU, memory, disk, network, battery, temp |
+| ![/system/cpu](https://img.shields.io/badge/-/system/cpu-orange) | ![GET](https://img.shields.io/badge/GET-blue) | Detailed CPU stats |
+| ![/system/memory](https://img.shields.io/badge/-/system/memory-yellow) | ![GET](https://img.shields.io/badge/GET-blue) | Memory + swap usage |
+| ![/system/disk](https://img.shields.io/badge/-/system/disk-lightgrey) | ![GET](https://img.shields.io/badge/GET-blue) | Disk partitions & I/O |
+| ![/system/network](https://img.shields.io/badge/-/system/network-purple) | ![GET](https://img.shields.io/badge/GET-blue) | Interfaces, I/O, connections |
+| ![/system/processes](https://img.shields.io/badge/-/system/processes-red) | ![GET](https://img.shields.io/badge/GET-blue) | Running processes info |
+| ![/system/battery](https://img.shields.io/badge/-/system/battery-brightgreen) | ![GET](https://img.shields.io/badge/GET-blue) | Battery status |
+| ![/system/temperature](https://img.shields.io/badge/-/system/temperature-lightblue) | ![GET](https://img.shields.io/badge/GET-blue) | Temperature readings |
+| ![/system/users](https://img.shields.io/badge/-/system/users-grey) | ![GET](https://img.shields.io/badge/GET-blue) | Logged-in users |
+| ![/system/services](https://img.shields.io/badge/-/system/services-pink) | ![GET](https://img.shields.io/badge/GET-blue) | Windows services |
+| ![/system/metrics/history](https://img.shields.io/badge/-/system/metrics/history-9cf) | ![GET](https://img.shields.io/badge/GET-blue) | Historical CPU/mem/network usage |
 
 ---
 
@@ -90,10 +92,10 @@ Example:
 
 | Endpoint | Method | Description |
 |----------|--------|-------------|
-| ![/desktop/system/screenshot](https://img.shields.io/badge/-/desktop/system/screenshot-blueviolet) | ![GET](https://img.shields.io/badge/GET-blue) | Capture current screen |
-| ![/desktop/system/control/shutdown](https://img.shields.io/badge/-/desktop/system/control/shutdown-red) | ![POST](https://img.shields.io/badge/POST-orange) | Schedule shutdown |
-| ![/desktop/system/control/reboot](https://img.shields.io/badge/-/desktop/system/control/reboot-orange) | ![POST](https://img.shields.io/badge/POST-orange) | Schedule reboot |
-| ![/desktop/system/control/cancel-shutdown](https://img.shields.io/badge/-/desktop/system/control/cancel--shutdown-green) | ![POST](https://img.shields.io/badge/POST-orange) | Cancel shutdown/reboot |
+| ![/system/screenshot](https://img.shields.io/badge/-/system/screenshot-blueviolet) | ![GET](https://img.shields.io/badge/GET-blue) | Capture current screen |
+| ![/system/control/shutdown](https://img.shields.io/badge/-/system/control/shutdown-red) | ![POST](https://img.shields.io/badge/POST-orange) | Schedule shutdown |
+| ![/system/control/reboot](https://img.shields.io/badge/-/system/control/reboot-orange) | ![POST](https://img.shields.io/badge/POST-orange) | Schedule reboot |
+| ![/system/control/cancel-shutdown](https://img.shields.io/badge/-/system/control/cancel--shutdown-green) | ![POST](https://img.shields.io/badge/POST-orange) | Cancel shutdown/reboot |
 
 ---
 
@@ -101,7 +103,7 @@ Example:
 
 | Endpoint | Method | Description |
 |----------|--------|-------------|
-| ![/desktop/ai/chat](https://img.shields.io/badge/-/desktop/ai/chat-lightgreen) | ![POST](https://img.shields.io/badge/POST-orange) | Chat with Google Gemini AI about your system |
+| ![/ai/chat](https://img.shields.io/badge/-/ai/chat-lightgreen) | ![POST](https://img.shields.io/badge/POST-orange) | Chat with your devices using Google Gemini AI |
 
 ---
 
@@ -109,7 +111,7 @@ Example:
 
 | Endpoint | Method | Description |
 |----------|--------|-------------|
-| ![/desktop/health](https://img.shields.io/badge/-/desktop/health-success) | ![GET](https://img.shields.io/badge/GET-blue) | API health status |
+| ![/health](https://img.shields.io/badge/-/health-success) | ![GET](https://img.shields.io/badge/GET-blue) | API health status |
 
 ---
 
