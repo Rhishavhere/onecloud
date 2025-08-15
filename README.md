@@ -2,7 +2,7 @@
 
 ## Overview
 
-**OneCloud** is a powerful personal cloud backend that gives you real-time insights and control over your devices.  
+**OneCloud** is a powerful personal cloud backend that gives you real-time insights and control over your devices.
 It acts as the central hub for your personal cloud, enabling system monitoring, AI-assisted queries, and remote operations — securely accessible from anywhere.
 
 The backend leverages Flask APIs and Cloudflare Tunnel for secure access, even behind NAT or firewalls.
@@ -20,8 +20,8 @@ With **OneCloud**, you can:
 
 ## Frontend
 
-The **OneCloud Backend** works together with the **OneCloud Frontend** to give you a full dashboard experience.  
-The frontend is a separate project and can be found here:  
+The **OneCloud Backend** works together with the **OneCloud Frontend** to give you a full dashboard experience.
+The frontend is a separate project and can be found here:
 [**Frontend Repo → github.com/Rhishavhere/mydesk.app**](https://github.com/Rhishavhere/mydesk.app)
 
 ---
@@ -30,10 +30,10 @@ The frontend is a separate project and can be found here:
 
 OneCloud consists of:
 
-1. **Backend API (This Project)**  
+1. **Backend API (This Project)**
    Runs on each monitored device, collecting metrics and handling control actions.
 
-2. **Frontend Dashboard**  
+2. **Frontend Dashboard**
    A separate React/TypeScript project that consumes this API and displays a beautiful dashboard (see link above).
 
 ---
@@ -54,13 +54,13 @@ When a request is made to your domain (e.g., `https://myspace.example.com`), Clo
 
 ## Platform-Specific Note
 
-OneCloud supports both **Windows** and **Linux (Fedora)** environments with separate API scripts:  
-- **Windows** → `api_win.py` → exposes `/desktop/*` endpoints  
-- **Linux (Fedora)** → `api_linux.py` → exposes `/laptop/*` endpoints  
+OneCloud supports both **Windows** and **Linux (Fedora)** environments with separate API scripts:
+- **Windows** → `api_win.py` → exposes `/desktop/*` endpoints
+- **Linux (Fedora)** → `api_linux.py` → exposes `/laptop/*` endpoints
 
-Simply run the script for your OS and tunnel it using Cloudflare Tunnel to your chosen public hostname.  
-Example:  
-- Windows: `https://myspace.example.com/desktop/system/overview`  
+Simply run the script for your OS and tunnel it using Cloudflare Tunnel to your chosen public hostname.
+Example:
+- Windows: `https://myspace.example.com/desktop/system/overview`
 - Linux: `https://myspace.example.com/laptop/system/overview`
 
 ---
@@ -69,71 +69,47 @@ Example:
 
 ### 🖥 System Information
 
-![`GET /desktop/status`](https://img.shields.io/badge/GET-/desktop/status-green)  
-Quick overview: OS, hostname, uptime
-
-![`GET /desktop/system/overview`](https://img.shields.io/badge/GET-/desktop/system/overview-blue)  
-Full CPU, memory, disk, network, battery, temp
-
-![`GET /desktop/system/cpu`](https://img.shields.io/badge/GET-/desktop/system/cpu-orange)  
-Detailed CPU stats
-
-![`GET /desktop/system/memory`](https://img.shields.io/badge/GET-/desktop/system/memory-yellow)  
-Memory + swap usage
-
-![`GET /desktop/system/disk`](https://img.shields.io/badge/GET-/desktop/system/disk-lightgrey)  
-Disk partitions & I/O
-
-![`GET /desktop/system/network`](https://img.shields.io/badge/GET-/desktop/system/network-purple)  
-Interfaces, I/O, connections
-
-![`GET /desktop/system/processes`](https://img.shields.io/badge/GET-/desktop/system/processes-red)  
-Running processes info
-
-![`GET /desktop/system/battery`](https://img.shields.io/badge/GET-/desktop/system/battery-brightgreen)  
-Battery status
-
-![`GET /desktop/system/temperature`](https://img.shields.io/badge/GET-/desktop/system/temperature-lightblue)  
-Temperature readings
-
-![`GET /desktop/system/users`](https://img.shields.io/badge/GET-/desktop/system/users-grey)  
-Logged-in users
-
-![`GET /desktop/system/services`](https://img.shields.io/badge/GET-/desktop/system/services-pink)  
-Windows services
-
-![`GET /desktop/system/metrics/history`](https://img.shields.io/badge/GET-/desktop/system/metrics/history-9cf)  
-Historical CPU/mem/network usage
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| ![`/desktop/status`](https://img.shields.io/badge/endpoint-/desktop/status-green) | ![GET](https://img.shields.io/badge/GET-blue) | Quick overview: OS, hostname, uptime |
+| ![`/desktop/system/overview`](https://img.shields.io/badge/endpoint-/desktop/system/overview-blue) | ![GET](https://img.shields.io/badge/GET-blue) | Full CPU, memory, disk, network, battery, temp |
+| ![`/desktop/system/cpu`](https://img.shields.io/badge/endpoint-/desktop/system/cpu-orange) | ![GET](https://img.shields.io/badge/GET-blue) | Detailed CPU stats |
+| ![`/desktop/system/memory`](https://img.shields.io/badge/endpoint-/desktop/system/memory-yellow) | ![GET](https://img.shields.io/badge/GET-blue) | Memory + swap usage |
+| ![`/desktop/system/disk`](https://img.shields.io/badge/endpoint-/desktop/system/disk-lightgrey) | ![GET](https://img.shields.io/badge/GET-blue) | Disk partitions & I/O |
+| ![`/desktop/system/network`](https://img.shields.io/badge/endpoint-/desktop/system/network-purple) | ![GET](https://img.shields.io/badge/GET-blue) | Interfaces, I/O, connections |
+| ![`/desktop/system/processes`](https://img.shields.io/badge/endpoint-/desktop/system/processes-red) | ![GET](https://img.shields.io/badge/GET-blue) | Running processes info |
+| ![`/desktop/system/battery`](https://img.shields.io/badge/endpoint-/desktop/system/battery-brightgreen) | ![GET](https://img.shields.io/badge/GET-blue) | Battery status |
+| ![`/desktop/system/temperature`](https://img.shields.io/badge/endpoint-/desktop/system/temperature-lightblue) | ![GET](https://img.shields.io/badge/GET-blue) | Temperature readings |
+| ![`/desktop/system/users`](https://img.shields.io/badge/endpoint-/desktop/system/users-grey) | ![GET](https://img.shields.io/badge/GET-blue) | Logged-in users |
+| ![`/desktop/system/services`](https://img.shields.io/badge/endpoint-/desktop/system/services-pink) | ![GET](https://img.shields.io/badge/GET-blue) | Windows services |
+| ![`/desktop/system/metrics/history`](https://img.shields.io/badge/endpoint-/desktop/system/metrics/history-9cf) | ![GET](https://img.shields.io/badge/GET-blue) | Historical CPU/mem/network usage |
 
 ---
 
 ### 🛠 System Control
 
-![`GET /desktop/system/screenshot`](https://img.shields.io/badge/GET-/desktop/system/screenshot-blueviolet)  
-Capture current screen
-
-![`POST /desktop/system/control/shutdown`](https://img.shields.io/badge/POST-/desktop/system/control/shutdown-red)  
-Schedule shutdown
-
-![`POST /desktop/system/control/reboot`](https://img.shields.io/badge/POST-/desktop/system/control/reboot-orange)  
-Schedule reboot
-
-![`POST /desktop/system/control/cancel-shutdown`](https://img.shields.io/badge/POST-/desktop/system/control/cancel--shutdown-green)  
-Cancel shutdown/reboot
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| ![`/desktop/system/screenshot`](https://img.shields.io/badge/endpoint-/desktop/system/screenshot-blueviolet) | ![GET](https://img.shields.io/badge/GET-blue) | Capture current screen |
+| ![`/desktop/system/control/shutdown`](https://img.shields.io/badge/endpoint-/desktop/system/control/shutdown-red) | ![POST](https://img.shields.io/badge/POST-orange) | Schedule shutdown |
+| ![`/desktop/system/control/reboot`](https://img.shields.io/badge/endpoint-/desktop/system/control/reboot-orange) | ![POST](https://img.shields.io/badge/POST-orange) | Schedule reboot |
+| ![`/desktop/system/control/cancel-shutdown`](https://img.shields.io/badge/endpoint-/desktop/system/control/cancel--shutdown-green) | ![POST](https://img.shields.io/badge/POST-orange) | Cancel shutdown/reboot |
 
 ---
 
 ### 🤖 AI Integration
 
-![`POST /desktop/ai/chat`](https://img.shields.io/badge/POST-/desktop/ai/chat-lightgreen)  
-Chat with Google Gemini AI about your system
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| ![`/desktop/ai/chat`](https://img.shields.io/badge/endpoint-/desktop/ai/chat-lightgreen) | ![POST](https://img.shields.io/badge/POST-orange) | Chat with Google Gemini AI about your system |
 
 ---
 
 ### ❤️ Health Check
 
-![`GET /desktop/health`](https://img.shields.io/badge/GET-/desktop/health-success)  
-API health status
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| ![`/desktop/health`](https://img.shields.io/badge/endpoint-/desktop/health-success) | ![GET](https://img.shields.io/badge/GET-blue) | API health status |
 
 ---
 
