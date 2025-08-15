@@ -1,5 +1,7 @@
 # OneCloud: Personal Cloud Server and API
 
+![PYTHON](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white) ![FLASK](https://img.shields.io/badge/Flask-671ddf?style=for-the-badge&logo=flask&logoColor=white) ![OS](https://img.shields.io/badge/Windows%20%7C%20Linux-green?style=for-the-badge&logo=linux&logoColor=white) ![CLOUDFLARED](https://img.shields.io/badge/Cloudflare%20Tunnel-F38020?style=for-the-badge&logo=cloudflare&logoColor=white)
+
 
 **OneCloud** is a personal cloud backend that gives you real-time insights and control over your devices.
 
@@ -7,9 +9,6 @@
 
 `The backend leverages Flask APIs and Cloudflare Tunnel for secure access, even behind NAT or firewalls.`
 
-![Python](https://img.shields.io/badge/Python-3.8%2B-blue?logo=python&logoColor=white)   ![Flask](https://img.shields.io/badge/Flask-API%20Backend-black?logo=flask&logoColor=white)
-
-![OS](https://img.shields.io/badge/OS-Windows%20%7C%20Linux-orange?logo=windows&logoColor=white&logoWidth=20)   ![Cloudflare Tunnel](https://img.shields.io/badge/Secure%20Access-Cloudflare%20Tunnel-F38020?logo=cloudflare&logoColor=white)
 
 With **OneCloud**, you can:
 
