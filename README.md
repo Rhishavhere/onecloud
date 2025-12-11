@@ -45,7 +45,7 @@ OneCloud consists of:
 
 Cloudflare Tunnel securely connects your devices to the internet without opening ports.
 
-When a request is made to your domain (e.g., `https://myspace.example.com`), Cloudflare routes it through a secure outbound-only tunnel to your API.
+When a request is made to your domain (e.g., `https://your-domain.com`), Cloudflare routes it through a secure outbound-only tunnel to your API.
 
 **Benefits:**
 - 🔒 **No open ports** — safer by design
@@ -65,8 +65,8 @@ _Update the exposed endpoints to match your device preferences._
 
 Simply run the script for your OS and tunnel it using Cloudflare Tunnel to your chosen public hostname.
 Example:
-- Desktop: `https://myspace.example.com/desktop/system/overview`
-- Laptop: `https://myspace.example.com/laptop/system/overview`
+- Desktop: `https://your-domain.com/desktop/system/overview`
+- Laptop: `https://your-domain.com/laptop/system/overview`
 
 ---
 
@@ -100,6 +100,16 @@ Example:
 | ![/system/control/reboot](https://img.shields.io/badge/-/system/control/reboot-orange) | ![POST](https://img.shields.io/badge/POST-orange) | Schedule reboot |
 | ![/system/control/cancel-shutdown](https://img.shields.io/badge/-/system/control/cancel--shutdown-green) | ![POST](https://img.shields.io/badge/POST-orange) | Cancel shutdown/reboot |
 | ![/laptop/camera/capture](https://img.shields.io/badge/-/camera/capture-ff69b4) | ![GET](https://img.shields.io/badge/GET-blue) | Capture image from webcam and return as PNG |
+
+---
+
+### 🎮 Remote Desktop & Input
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| ![/desktop/livestream](https://img.shields.io/badge/-/desktop/livestream-red) | ![GET](https://img.shields.io/badge/GET-blue) | MJPEG video stream of the desktop |
+| ![/desktop/mapping](https://img.shields.io/badge/-/desktop/mapping-blueviolet) | ![POST](https://img.shields.io/badge/POST-orange) | Control mouse/keyboard actions |
+
 
 
 ---
@@ -149,10 +159,54 @@ GET /desktop/system/screenshot?width=800&height=600&quality=80
 - `query` *(string)* — natural language question or command
 - `include_screenshot` *(bool)* — if true, attaches a screenshot for AI context
 **Body:**
-```json
 {
   "query": "Describe the system status",
   "include_screenshot": true
+}
+```
+
+---
+
+### `/desktop/livestream` (GET)
+- `fps` *(int)* — frames per second (default: 15, max: 30)
+- `quality` *(int)* — JPEG quality 1-100 (default: 70)
+- `scale` *(float)* — resolution scale 0.1-1.0 (default: 0.5)
+- `cursor` *(string)* — `crosshair`, `simple`, or `none`
+
+**Example:**
+```bash
+https://your-domain.com/desktop/livestream?fps=20&quality=80&scale=0.75
+```
+
+---
+
+### `/desktop/mapping` (POST)
+Control the mouse remotely. Requires `Authorization` header.
+
+**Body (Move):**
+```json
+{
+  "action": "move",
+  "x": 0.5,     // 0.0 to 1.0 (normalized)
+  "y": 0.5,
+  "normalized": true
+}
+```
+
+**Body (Click/Tap):**
+```json
+{
+  "action": "tap", // or 'doubletap', 'rightclick'
+  "x": 0.5,
+  "y": 0.5
+}
+```
+
+**Body (Scroll):**
+```json
+{
+  "action": "scroll",
+  "delta": 200 // positive = up, negative = down
 }
 ```
 
@@ -164,7 +218,9 @@ GET /desktop/system/screenshot?width=800&height=600&quality=80
 ### Prerequisites
 - Python 3.8+
 - Cloudflare account + `cloudflared` tunnel
+- Cloudflare account + `cloudflared` tunnel
 - Google Gemini API key
+- (`mss` is recommended for faster screen capture, installed via requirements)
 
 ### Install & Run
 ```bash
@@ -174,8 +230,8 @@ source venv/bin/activate
 pip install -r requirements.txt
 
 # Create .env
-echo "GEMINI_API_KEY=your_key" >> .env
-echo "CONTROL_TOKEN=your_token" >> .env
+echo "GEMINI_API_KEY=your_gemini_key" >> .env
+echo "CONTROL_TOKEN=your_secure_token" >> .env
 
 # Start API
 python api_win.py   # for Windows
@@ -206,7 +262,7 @@ tunnel: <YOUR_TUNNEL_UUID>
 credentials-file: /home/user/.cloudflared/<YOUR_TUNNEL_UUID>.json
 
 # Change hostname to your Cloudflare domain/subdomain
-hostname: myspace.example.com
+hostname: your-domain.com
 service: http://localhost:5000
 ```
 
@@ -218,8 +274,8 @@ cloudflared tunnel run <YOUR_TUNNEL_NAME>
 ---
 
 Once the tunnel is running, your API will be available at:
-- **Desktop**: `https://myspace.example.com/desktop/*`
-- **Laptop**: `https://myspace.example.com/laptop/*`
+- **Desktop**: `https://your-domain.com/desktop/*`
+- **Laptop**: `https://your-domain.com/laptop/*`
 
 ---
 
