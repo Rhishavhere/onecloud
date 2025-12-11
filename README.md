@@ -1,218 +1,231 @@
-# RhishDesk: Your Personal Cloud Management Dashboard
+# OneCloud: Personal Cloud Server and API
 
-## Overview
+![PYTHON](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white) ![FLASK](https://img.shields.io/badge/Flask-671ddf?style=for-the-badge&logo=flask&logoColor=white) ![OS](https://img.shields.io/badge/Windows%20%7C%20Linux-green?style=for-the-badge&logo=linux&logoColor=white) ![CLOUDFLARED](https://img.shields.io/badge/Cloudflare%20Tunnel-F38020?style=for-the-badge&logo=cloudflare&logoColor=white)
 
-RhishDesk is a sophisticated personal cloud management dashboard designed to provide real-time insights and control over your various devices. It acts as a central hub, allowing you to monitor system metrics, interact with an AI assistant, and manage your personal computing environment from anywhere. The project leverages a robust API and a Cloudflare tunnel to ensure secure and seamless access to your devices, even when they are behind a local network.
 
-With RhishDesk, you can monitor multiple devices simultaneously, view detailed system information, capture screenshots remotely, and even perform system operations like shutdown and reboot—all from a single, intuitive interface accessible from anywhere in the world.
+**OneCloud** is a personal cloud backend that gives you real-time insights and control over your devices.
 
-### Key Features
+`It acts as the central hub for your personal cloud, enabling system monitoring, AI-assisted queries, and remote operations — securely accessible from anywhere.`
 
-- **Real-time Device Monitoring**: Keep track of CPU usage, memory, uptime, disk space, network traffic, and battery status for all your connected devices.
-- **AI-Powered Assistant**: Interact with Google Gemini AI to query system information, troubleshoot issues, and perform tasks using natural language.
-- **Secure Remote Access**: Utilize Cloudflare Tunnel for secure, public-facing access to your local devices without opening firewall ports or configuring complex VPNs.
-- **Remote Control Capabilities**: Capture screenshots, shutdown, or reboot your devices remotely with proper authentication.
-- **Historical Performance Tracking**: View performance trends with historical data collection for CPU, memory, and network usage.
-- **Intuitive User Interface**: A clean and modern dashboard built with React, TypeScript, and Tailwind CSS for an optimal user experience.
-- **Cross-Device Compatibility**: Monitor both desktop and laptop devices, with potential for expansion to other device types.
-- **Secure Authentication**: Token-based authentication for sensitive operations ensures your devices remain secure.
+`The backend leverages Flask APIs and Cloudflare Tunnel for secure access, even behind NAT or firewalls.`
+
+
+With **OneCloud**, you can:
+
+- Monitor multiple devices in real time
+- View detailed system metrics
+- Capture screenshots remotely
+- Perform control actions like shutdown/reboot
+- Chat with an AI assistant about your system
+- Keep your devices safe with token-based authentication
+
+---
+
+## Frontend ( _separate repo_ )
+
+The **OneCloud Backend** works together with the **OneCloud Frontend** to give you a full dashboard experience.
+The frontend is a separate project and can be found here:
+[**Frontend Repo → github.com/Rhishavhere/mydesk.app**](https://github.com/Rhishavhere/mydesk.app)
+
+---
 
 ## Architecture
 
-RhishDesk comprises two main components working together to provide a seamless monitoring experience:
+OneCloud consists of:
 
-1. **Frontend Application (`App`)**: A React-based web application that serves as the user interface. It fetches data from the backend API and presents it in an intuitive dashboard. Built with modern technologies like TypeScript, Vite, shadcn-ui, and Tailwind CSS.
+1. **Backend API (This Project)**
+   Runs on each monitored device, collecting metrics and handling control actions.
 
-2. **Backend API (`Api`)**: A Python-based API (`desktop.py`) running on each monitored device. This API collects system information using libraries like `psutil` and exposes it securely through a Flask web server. The API is exposed to the internet via a Cloudflare Tunnel.
+2. **Frontend Dashboard**
+   A separate React/TypeScript project that consumes this API and displays a beautiful dashboard (see link above).
 
-### Cloudflare Tunnel Integration
+---
 
-Cloudflare Tunnel creates a secure, outbound-only connection from your local network to Cloudflare's edge network. This eliminates the need to open inbound ports on your firewall, significantly enhancing security while providing reliable access to your local APIs from anywhere in the world.
+## Cloudflare Tunnel Integration
 
-The tunnel works by establishing an encrypted connection from your device to Cloudflare's network. When a request is made to your custom domain (e.g., `https://myspace.rhishav.com`), Cloudflare routes it through this secure tunnel to your local API server. This approach offers several advantages:
+Cloudflare Tunnel securely connects your devices to the internet without opening ports.
 
-- **Enhanced Security**: No inbound ports need to be opened on your firewall
-- **Simplified Setup**: No need for complex networking configurations or static IPs
-- **TLS Encryption**: Automatic HTTPS encryption for all traffic
-- **DDoS Protection**: Cloudflare's protection shields your devices from attacks
+When a request is made to your domain (e.g., `https://myspace.example.com`), Cloudflare routes it through a secure outbound-only tunnel to your API.
 
-## Comprehensive API Endpoints
+**Benefits:**
+- 🔒 **No open ports** — safer by design
+- ⚡ **Simpler setup** — no complex networking configs
+- 📜 **TLS by default** — automatic HTTPS
+- 🛡 **DDoS Protection** — Cloudflare shields your API
 
-The `Api/desktop.py` Flask application provides the following endpoints for system monitoring and control:
+---
 
-### System Information
+## Platform-Specific Note
 
-- **`/desktop/status`** (`GET`): Quick overview of the desktop's status including OS, hostname, and uptime.
-- **`/desktop/system/overview`** (`GET`): Comprehensive overview of the system, including CPU, memory, disk, network, and more.
-- **`/desktop/system/cpu`** (`GET`): Detailed CPU information, including physical/logical core counts, usage percentage, frequency, and load average.
-- **`/desktop/system/memory`** (`GET`): Detailed memory (virtual and swap) usage statistics.
-- **`/desktop/system/disk`** (`GET`): Information about disk partitions and I/O statistics.
-- **`/desktop/system/network`** (`GET`): Network interface details, I/O counters, and active connections.
-- **`/desktop/system/processes`** (`GET`): List of running processes with their details (PID, name, CPU/memory usage).
-- **`/desktop/system/battery`** (`GET`): Battery status information (percentage, power plug status, time remaining).
-- **`/desktop/system/temperature`** (`GET`): Temperature sensor readings if available.
-- **`/desktop/system/users`** (`GET`): Information about logged-in users.
-- **`/desktop/system/services`** (`GET`): Windows services information (Windows only).
-- **`/desktop/system/metrics/history`** (`GET`): Historical system metrics for CPU, memory, and network usage.
+OneCloud supports both **Windows** and **Linux (Fedora)** environments with separate API scripts:
+- **Windows** → `api_win.py` → exposes `/desktop/*` endpoints
+- **Linux (Fedora)** → `api_linux.py` → exposes `/laptop/*` endpoints
 
-### System Control
+_Update the exposed endpoints to match your device preferences._
 
-- **`/desktop/system/screenshot`** (`GET`): Captures and returns a screenshot of the desktop.
-- **`/desktop/system/control/shutdown`** (`POST`): Initiates a system shutdown with optional delay.
-- **`/desktop/system/control/reboot`** (`POST`): Initiates a system reboot with optional delay.
-- **`/desktop/system/control/cancel-shutdown`** (`POST`): Cancels a pending shutdown or reboot operation.
+Simply run the script for your OS and tunnel it using Cloudflare Tunnel to your chosen public hostname.
+Example:
+- Desktop: `https://myspace.example.com/desktop/system/overview`
+- Laptop: `https://myspace.example.com/laptop/system/overview`
 
-### AI Integration
+---
 
-- **`/desktop/ai/chat`** (`POST`): Integrates with Google Gemini AI to process natural language queries about the system, optionally including a screenshot for context.
-  - **Request Body**: `{"query": "string", "include_screenshot": boolean}`
-  - **Response**: `{"ai_response": "string", "system_summary": { ... }}`
+## API Endpoints
 
-### Health Monitoring
+### 🖥 System Information
 
-- **`/desktop/health`** (`GET`): Health check endpoint for monitoring the API's status.
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| ![/status](https://img.shields.io/badge/-/status-green) | ![GET](https://img.shields.io/badge/GET-blue) | Quick overview: OS, hostname, uptime |
+| ![/system/overview](https://img.shields.io/badge/-/system/overview-blue) | ![GET](https://img.shields.io/badge/GET-blue) | Full CPU, memory, disk, network, battery, temp |
+| ![/system/cpu](https://img.shields.io/badge/-/system/cpu-orange) | ![GET](https://img.shields.io/badge/GET-blue) | Detailed CPU stats |
+| ![/system/memory](https://img.shields.io/badge/-/system/memory-yellow) | ![GET](https://img.shields.io/badge/GET-blue) | Memory + swap usage |
+| ![/system/disk](https://img.shields.io/badge/-/system/disk-lightgrey) | ![GET](https://img.shields.io/badge/GET-blue) | Disk partitions & I/O |
+| ![/system/network](https://img.shields.io/badge/-/system/network-purple) | ![GET](https://img.shields.io/badge/GET-blue) | Interfaces, I/O, connections |
+| ![/system/processes](https://img.shields.io/badge/-/system/processes-red) | ![GET](https://img.shields.io/badge/GET-blue) | Running processes info |
+| ![/system/battery](https://img.shields.io/badge/-/system/battery-brightgreen) | ![GET](https://img.shields.io/badge/GET-blue) | Battery status |
+| ![/system/temperature](https://img.shields.io/badge/-/system/temperature-lightblue) | ![GET](https://img.shields.io/badge/GET-blue) | Temperature readings |
+| ![/system/users](https://img.shields.io/badge/-/system/users-grey) | ![GET](https://img.shields.io/badge/GET-blue) | Logged-in users |
+| ![/system/services](https://img.shields.io/badge/-/system/services-pink) | ![GET](https://img.shields.io/badge/GET-blue) | Windows services |
+| ![/system/metrics/history](https://img.shields.io/badge/-/system/metrics/history-9cf) | ![GET](https://img.shields.io/badge/GET-blue) | Historical CPU/mem/network usage |
 
-## Project Setup
+---
+
+### 🛠 System Control
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| ![/system/screenshot](https://img.shields.io/badge/-/system/screenshot-blueviolet) | ![GET](https://img.shields.io/badge/GET-blue) | Capture current screen |
+| ![/system/control/shutdown](https://img.shields.io/badge/-/system/control/shutdown-red) | ![POST](https://img.shields.io/badge/POST-orange) | Schedule shutdown |
+| ![/system/control/reboot](https://img.shields.io/badge/-/system/control/reboot-orange) | ![POST](https://img.shields.io/badge/POST-orange) | Schedule reboot |
+| ![/system/control/cancel-shutdown](https://img.shields.io/badge/-/system/control/cancel--shutdown-green) | ![POST](https://img.shields.io/badge/POST-orange) | Cancel shutdown/reboot |
+| ![/laptop/camera/capture](https://img.shields.io/badge/-/camera/capture-ff69b4) | ![GET](https://img.shields.io/badge/GET-blue) | Capture image from webcam and return as PNG |
+
+
+---
+
+### 🤖 AI Integration
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| ![/ai/chat](https://img.shields.io/badge/-/ai/chat-lightgreen) | ![POST](https://img.shields.io/badge/POST-orange) | Chat with your devices using Google Gemini AI |
+
+---
+
+### ❤️ Health Check
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| ![/health](https://img.shields.io/badge/-/health-success) | ![GET](https://img.shields.io/badge/GET-blue) | API health status |
+
+---
+
+## Endpoint Parameters
+
+### `/system/processes` (GET)
+- `limit` *(int)* — number of processes to return (default: 20)
+- `sort` *(string)* — sort by `memory`, `cpu`, `name`, or `pid` (default: `memory`)
+
+**Example:**
+```bash
+GET /desktop/system/processes?limit=10&sort=cpu
+```
+
+---
+
+### `/system/screenshot` (GET)
+- `width` *(int)* — resize image width before returning
+- `height` *(int)* — resize image height before returning
+- `quality` *(int)* — image quality (default: 95)
+
+**Example:**
+```bash
+GET /desktop/system/screenshot?width=800&height=600&quality=80
+```
+
+---
+
+### `/ai/chat` (POST)
+- `query` *(string)* — natural language question or command
+- `include_screenshot` *(bool)* — if true, attaches a screenshot for AI context
+**Body:**
+```json
+{
+  "query": "Describe the system status",
+  "include_screenshot": true
+}
+```
+
+
+
+
+## Setup
 
 ### Prerequisites
+- Python 3.8+
+- Cloudflare account + `cloudflared` tunnel
+- Google Gemini API key
 
-- Node.js & npm (recommended to install with [nvm](https://github.com/nvm-sh/nvm#installing-and-updating))
-- Python 3.8+ (for the backend API)
-- Cloudflare account and `cloudflared` daemon (for tunneling)
-- Google Gemini API key (for AI assistant functionality)
-
-### Getting Started
-
-#### 1. Backend API Setup (on each device to be monitored)
-
-Navigate to the `Api` directory and set up your Python environment:
-
+### Install & Run
 ```bash
-cd Api
+# Create venv & install deps
 python -m venv venv
-./venv/Scripts/activate  # On Windows
-source venv/bin/activate # On macOS/Linux
+source venv/bin/activate
 pip install -r requirements.txt
+
+# Create .env
+echo "GEMINI_API_KEY=your_key" >> .env
+echo "CONTROL_TOKEN=your_token" >> .env
+
+# Start API
+python api_win.py   # for Windows
+# or
+python api_linux.py # for Linux (Fedora)
+
+---
 ```
 
-Create a `.env` file in the `Api` directory with your configuration:
+### Expose API via Cloudflare Tunnel
 
-```
-GEMINI_API_KEY=your_gemini_api_key_here
-CONTROL_TOKEN=your_secure_token_for_system_control
-```
+1. **Install Cloudflare Tunnel CLI** (`cloudflared`):
+   [Installation Guide → Cloudflare Docs](https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/install-and-setup/installation)
 
-Start the API server:
-
+2. **Authenticate with Cloudflare**:
 ```bash
-python desktop.py
+cloudflared login
 ```
 
-The API will start on port 5000 by default.
+3. **Create a tunnel** (replace `<YOUR_TUNNEL_NAME>` with a name you choose):
+```bash
+cloudflared tunnel create <YOUR_TUNNEL_NAME>
+```
 
-#### 2. Cloudflare Tunnel Configuration
-
-Install `cloudflared` on each device running the backend API. Authenticate `cloudflared` with your Cloudflare account and configure a tunnel to expose your local API server to a public Cloudflare hostname.
-
-Example `config.yml` for `cloudflared`:
-
+4. **Configure the tunnel** by creating `~/.cloudflared/config.yml`:
 ```yaml
-hostname: myspace.rhishav.com
-service: http://localhost:5000 # Or whatever port your API runs on
 tunnel: <YOUR_TUNNEL_UUID>
-credentials-file: /path/to/your/credentials.json
+credentials-file: /home/user/.cloudflared/<YOUR_TUNNEL_UUID>.json
+
+# Change hostname to your Cloudflare domain/subdomain
+hostname: myspace.example.com
+service: http://localhost:5000
 ```
 
-Start the Cloudflare Tunnel:
-
+5. **Run the tunnel**:
 ```bash
 cloudflared tunnel run <YOUR_TUNNEL_NAME>
 ```
 
-#### 3. Frontend Application Setup
+---
 
-Navigate to the `App` directory:
+Once the tunnel is running, your API will be available at:
+- **Desktop**: `https://myspace.example.com/desktop/*`
+- **Laptop**: `https://myspace.example.com/laptop/*`
 
-```bash
-cd App
-npm install
-npm run dev
-```
+---
 
-The frontend application will start a development server, usually at `http://localhost:5173`. Open this URL in your browser.
+## Security Tips
+- Use **strong, unique tokens** in `.env`
+- Always access via HTTPS (Cloudflare provides this)
+- Keep dependencies updated
 
-Update `App/src/constants/devices.js` (or similar) to include the `apiEndpoint` for each of your devices, matching the Cloudflare Tunnel hostnames.
-
-## How to Edit This Code
-
-There are several ways to contribute to or modify RhishDesk:
-
-- **Use Lovable**: If this project was initiated via Lovable, you can make changes directly through their platform.
-- **Your Preferred IDE**: Clone this repository and use your local development environment. Push changes to your Git repository, and they will be reflected.
-  ```sh
-  # Step 1: Clone the repository.
-  git clone <YOUR_GIT_URL>
-
-  # Step 2: Navigate to the project directory.
-  cd App
-
-  # Step 3: Install dependencies.
-  npm install
-
-  # Step 4: Start the development server.
-  npm run dev
-  ```
-- **GitHub Interface**: For minor changes, you can edit files directly on GitHub.
-- **GitHub Codespaces**: Utilize GitHub Codespaces for an in-browser development environment.
-
-## Technologies Used
-
-### Frontend
-- **React**: Core UI library
-- **TypeScript**: Type-safe JavaScript
-- **Vite**: Fast build tool and development server
-- **shadcn-ui**: UI component library
-- **Tailwind CSS**: Utility-first CSS framework
-
-### Backend
-- **Python**: Core programming language
-- **Flask**: Web framework for API endpoints
-- **psutil**: System monitoring library
-- **pyautogui**: Screen capture functionality
-- **google.generativeai**: Google Gemini AI integration
-
-### Networking
-- **Cloudflare Tunnel**: Secure remote access to local devices
-
-## Deployment
-
-For deployment, you can host the frontend application on any static site hosting service (e.g., Vercel, Netlify, Cloudflare Pages). The backend APIs will run on your local devices, accessible via the Cloudflare Tunnels.
-
-To deploy the frontend:
-
-1. Build the production version of the frontend:
-   ```bash
-   cd App
-   npm run build
-   ```
-
-2. Deploy the contents of the `dist` directory to your preferred hosting service.
-
-3. Ensure your Cloudflare Tunnels are configured to run as services on your devices for persistent access.
-
-If this project was created with Lovable, you can use their built-in publishing features.
-
-## Security Considerations
-
-- Always use strong, unique tokens for the `CONTROL_TOKEN` environment variable
-- Consider implementing additional authentication for the frontend application
-- Regularly update all dependencies to patch security vulnerabilities
-- Use HTTPS for all communications (automatically provided by Cloudflare)
-
-## Future Enhancements
-
-- Mobile application for on-the-go monitoring
-- Support for additional device types (IoT, servers, etc.)
-- Enhanced AI capabilities with more system control options
-- Real-time alerts and notifications for system events
-- Multi-user support with role-based access control
+---
